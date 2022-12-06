@@ -1,0 +1,29 @@
+version: "3.7"
+
+services:
+  gordian_seat_maps:
+    container_name: "gordian_seat_maps"
+    image: gordian_seat_maps
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: npm run start
+    volumes:
+      - .:/usr/gordian_seat_maps/
+      - /usr/gordian_seat_maps/node_modules
+    ports:
+      - "80:80"
+    env_file: .env
+    stdin_open: true
+    tty: true
+
+  gordian_seat_rethink:
+    container_name: "gordian_seat_rethink"
+    image: rethinkdb:latest
+    ports:
+      - "8080:8080"
+      - "29015:29015"
+
+volumes:
+  rethindb-data:
+    external: true
